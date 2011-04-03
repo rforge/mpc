@@ -1,4 +1,3 @@
-
 <!-- This is the project specific website template -->
 <!-- It can be changed as liked or replaced by other content -->
 
@@ -19,6 +18,20 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title><?php echo $group_name; ?></title>
 	<link href="<?php echo $themeroot; ?>styles/estilo1.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-53035-9']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type =
+    'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' :
+    'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
   </head>
 
 <body>
@@ -26,9 +39,34 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 <!-- R-Forge Logo -->
 <table border="0" width="100%" cellspacing="0" cellpadding="0">
 <tr><td>
-<a href="http://r-forge.r-project.org/"><img src="http://<?php echo $themeroot; ?>/images/logo.png" border="0" alt="R-Forge Logo" /> </a> </td> </tr>
+<a href="http://r-forge.r-project.org/"><img src="<?php echo $themeroot; ?>/images/logo.png" border="0" alt="R-Forge Logo" /> </a> </td> </tr>
 </table>
 
+<h1>Installation</h1>
+
+<p>Eventually, you will be able to install with just:</p>
+<pre>
+R
+> install.packages("mpc", repos = "http://R-Forge.R-project.org").
+</pre>
+
+<h1>Development</h1>
+
+<p>You can check out the latest source code for this R package
+  with:</p>
+
+<pre>
+$ svn checkout svn://scm.r-forge.r-project.org/svnroot/mpc
+</pre>
+
+<h1>Links</h1>
+<ul>
+<li><a href="http://lists.r-forge.r-project.org/pipermail/mpc-commits/">MPC
+    Commits Mailing List Archives</a></li>
+<li><a href="https://r-forge.r-project.org/projects/mpc">R-Forge MPC
+  Project page</a></li>
+<li><a href="http://multiprecision.org/">MPC C library page</a></li>
+</ul>
 
 <!-- get project title  -->
 <!-- own website starts here, the following may be changed as you like -->
