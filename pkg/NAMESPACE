@@ -1,0 +1,33 @@
+useDynLib(mpc)
+exportPattern("^[^\\.]")
+
+S3method("Ops", "mpc")
+S3method("print", "mpc")
+S3method("summary", "mpc")
+
+# 5.6 Projection and Decomposing Functions
+S3method("Re", "mpc")
+S3method("Im", "mpc")
+S3method("Arg", "mpc")
+
+# 5.7 Basic Arithmetic Functions
+S3method("Conj", "mpc")
+
+# 5.8 Power Functions and Logarithm
+# Power methods part of 'Ops', e.g. '^' operator.
+S3method("log", "mpc")
+S3method("exp", "mpc")
+
+# 5.9 Trignometric Functions
+S3method("sin", "mpc")
+S3method("cos", "mpc")
+S3method("tan", "mpc")
+S3method("sinh", "mpc")
+S3method("cosh", "mpc")
+S3method("tanh", "mpc")
+S3method("asin", "mpc")
+S3method("acos", "mpc")
+S3method("atan", "mpc")
+S3method("asinh", "mpc")
+S3method("acosh", "mpc")
+S3method("atanh", "mpc")

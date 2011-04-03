@@ -1,0 +1,34 @@
+The package mpc interfaces R to the C Library
+
+    MPC, the Multiple Precision Complex Library
+    -------------------------------------------
+
+That is Free Software, available under the LGPL license.
+See http://multiprecision.org/
+    ----------------
+
+MPC is itself built on and requires:
+
+    GNU Multiple Precision Floating-Point Reliable Library (MPFR)
+    http://www.mpfr.org
+
+and:
+
+    GNU Multiple Precision arithmetic library (GMP)
+    http://gmplib.org
+
+
+Most modern Unix operating systems provide a simple way to install MPC
+and these two dependent libraries easily.
+
+Under FreeBSD it is sufficient to simply type:
+
+      pkg_add -r mpc
+
+Under Debian and Ubuntu Linux distributions, it is sufficient to type:
+
+      sudo apt-get install libmpc-dev
+
+For MacOS X, downloading the source from the websites above and
+compiling installing manually works fine, as does presumably the fink
+or portinstall tools for Darwin/MacOS X.
