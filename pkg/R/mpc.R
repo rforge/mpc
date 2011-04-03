@@ -20,18 +20,22 @@ as.mpc <- function(z, precision=52) {
   .Call("as_mpc_numeric", z, as.integer(precision), PACKAGE="mpc")
 }
 
-as.complex.mpc <- function(z) {
-  complex(1, Re.mpc(z), Im.mpc(z))
+is.mpc <- function(z) {
+  return(inherits(z, "mpc"))
 }
 
-print.mpc <-function(z) {
-  print(.Call("print_mpc", z, PACKAGE="mpc"))
+as.complex.mpc <- function(x, ...) {
+  complex(1, Re.mpc(x), Im.mpc(x))
 }
 
-summary.mpc <- function(z) {
+print.mpc <-function(x, ...) {
+  print(.Call("print_mpc", x, PACKAGE="mpc"))
+}
+
+summary.mpc <- function(object, ...) {
   cat("Output: ",
-      .Call("print_mpc", z, PACKAGE="mpc"),
-      "\nPrecision: ", .Call("R_mpc_get_prec", z, PACKAGE="mpc"), "\n")
+      .Call("print_mpc", object, PACKAGE="mpc"),
+      "\nPrecision: ", .Call("R_mpc_get_prec", object, PACKAGE="mpc"), "\n")
 }
 
 Conj.mpc <- function(z) {
@@ -56,10 +60,16 @@ Arg.mpc <- function(z) {
 }
 
 # 5.8 Power and Logarithm Functions.
-log.mpc <- function(z) {
-  .Call("R_mpc_log", z, PACKAGE="mpc")
+log.mpc <- function(x, base=exp(1)) {
+  stopifnot(is.numeric(base) || is.mpc(base))
+  result <- .Call("R_mpc_log", x, PACKAGE="mpc")
+  if (base == exp(1)) {
+    return(result)
+  } else {
+    return(result / log(base))
+  }
 }
 
-exp.mpc <- function(z) { 
-  .Call("R_mpc_exp", z, PACKAGE="mpc")
+exp.mpc <- function(x) { 
+  .Call("R_mpc_exp", x, PACKAGE="mpc")
 }
