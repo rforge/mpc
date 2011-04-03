@@ -1,0 +1,13 @@
+Vectorize as_mpc_numeric.
+
+malloc enough mpc_t's for sizeof(n), return a vector of external
+pointers for each of them, rather than just a single one, when a list
+of inputs is provided.
+
+Add a vignette.
+
+Write better man pages.
+
+Comment the functions.
+
+Add more tests.
