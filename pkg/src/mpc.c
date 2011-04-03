@@ -324,6 +324,18 @@ SEXP R_mpc_pow(SEXP e1, SEXP e2) {
 	return retVal;
 }
 
+/* R_mpc_cmp - Comparison function for MPC objects.
+ *
+ * Ops.mpc.R includes code to coerce complex numbers or numerics from
+ * e2 into MPC objects for this comparison since the MPC library only
+ * supports comparison against other MPC objects or integers.
+ *
+ * Arguments:
+ *  e1:    SEXP for an mpc type.
+ *  e2:    SEXP for an mpc type, or integer.
+ * Return value:
+ *  True if e1 == e2.
+ */
 SEXP R_mpc_cmp(SEXP e1, SEXP e2) {
 	if (Rf_inherits(e1, "mpc")) {
 		mpc_t *z1 = (mpc_t *)R_ExternalPtrAddr(e1);

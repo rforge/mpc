@@ -29,7 +29,7 @@
 SEXP R_mpc_real(SEXP e1) {
 	if (Rf_inherits(e1, "mpc")) {
 		mpc_t *z1 = (mpc_t *)R_ExternalPtrAddr(e1);
-		if (mpfr_fits_uint_p(mpc_realref(*z1), MPFR_RNDN)) {
+		if (mpfr_fits_sint_p(mpc_realref(*z1), MPFR_RNDN)) {
 			double y = mpfr_get_d(mpc_realref(*z1), MPFR_RNDN);
 			return Rf_ScalarReal(y);
 		} else {
@@ -43,7 +43,7 @@ SEXP R_mpc_real(SEXP e1) {
 SEXP R_mpc_imag(SEXP e1) {
 	if (Rf_inherits(e1, "mpc")) {
 		mpc_t *z1 = (mpc_t *)R_ExternalPtrAddr(e1);
-		if (mpfr_fits_uint_p(mpc_imagref(*z1), MPFR_RNDN)) {
+		if (mpfr_fits_sint_p(mpc_imagref(*z1), MPFR_RNDN)) {
 			return Rf_ScalarReal(mpfr_get_d(mpc_imagref(*z1),
 				MPFR_RNDN));
 		} else {
@@ -59,7 +59,7 @@ SEXP R_mpc_arg(SEXP e1) {
 	if (Rf_inherits(e1, "mpc")) {
 		mpc_t *z1 = (mpc_t *)R_ExternalPtrAddr(e1);
 		mpc_arg(x, *z1, MPFR_RNDN);
-		if (mpfr_fits_uint_p(x, MPFR_RNDN)) {
+		if (mpfr_fits_sint_p(x, MPFR_RNDN)) {
 			return Rf_ScalarReal(mpfr_get_d(x, MPFR_RNDN));
 		} else {
 			Rf_error("Arg doesn't fit in numeric.");
