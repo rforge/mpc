@@ -9,6 +9,23 @@
 #
 # http://mpc.r-forge.r-project.org/
 
+.equality.mpc <- function(e1, e2)
+{
+  # Ensure first operand is mpc type, second possibly not.
+  if (!inherits(e1, "mpc")) {
+    tmp <- e2
+    e2 <- e1
+    e1 <- tmp
+  }
+  stopifnot(inherits(e1, "mpc"))
+  # mpc library can compare MPCs against integers or other MPCs,
+  # but not floats or complex numbers, so convert if necessary.
+  if ((is.numeric(e2) && !is.integer(e2)) || is.complex(e2)) {
+    e2 <- mpc(e2, .Call("R_mpc_get_prec", e1, PACKAGE="mpc"))
+  }
+  return(.Call("R_mpc_cmp", e1, e2, PACKAGE="mpc") == 0)
+}
+
 Ops.mpc <- function (e1, e2) 
 {
     switch(.Generic,
@@ -33,8 +50,8 @@ Ops.mpc <- function (e1, e2)
     "&" = stop(.Generic, " not yet supported with mpc types."),
     "|" = stop(.Generic, " not yet supported with mpc types."),
     "!" = stop(.Generic, " not yet supported with mpc types."),
-    "==" = return(.Call("R_mpc_cmp", e1, e2, PACKAGE="mpc") == 0),
-    "!=" = stop(.Generic, " not yet supported with mpc types."),
+    "==" = return(.equality.mpc(e1, e2)),
+    "!=" = return(!.equality.mpc(e1, e2)),
     "<" = stop(.Generic, " not yet supported with mpc types."),
     "<=" = stop(.Generic, " not yet supported with mpc types."),
     ">=" = stop(.Generic, " not yet supported with mpc types."),
