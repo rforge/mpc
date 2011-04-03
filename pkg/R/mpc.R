@@ -28,6 +28,11 @@ as.complex.mpc <- function(x, ...) {
   complex(1, Re.mpc(x), Im.mpc(x))
 }
 
+as.double.mpc <- function(x, ...) {
+  stopifnot(Im.mpc(x) == 0)
+  as.numeric(Re.mpc(x))
+}
+
 print.mpc <-function(x, ...) {
   print(.Call("print_mpc", x, PACKAGE="mpc"))
 }
