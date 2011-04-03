@@ -1,0 +1,32 @@
+\documentclass[a4paper]{article}
+
+% \VignetteIndexEntry{An R package for arbitrary precision complex number arithmetic}
+% \VignetteKeyword{complex}
+
+% Definitions
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\slan}{{\sffamily S}}
+\newcommand{\rlan}{{\sffamily R}}
+\newcommand{\pkg}[1]{{\normalfont\fontseries{b}\selectfont #1}}
+\newcommand{\mpc}{\pkg{mpc}}
+\usepackage{url}
+
+\title{\mpc{} Arbitrary Precision Complex Number Arithmetic}
+\author{Murray Stokely}
+
+\begin{document}
+
+\maketitle
+
+\mpc{} is an R package that provides access to the mpc\cite{mpc}
+library for the arithmetic of complex numbers with arbitrarily high
+precision and correct rounding of the result.
+
+<<>>=
+  library(mpc)
+  mpc(3+3i, 52)
+@ 
+
+\bibliographystyle{plain}
+\bibliography{mpc}
+\end{document}
