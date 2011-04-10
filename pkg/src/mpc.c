@@ -31,6 +31,9 @@
 #include <Rinternals.h>
 #include "Rmpc.h"
 
+static gmp_randstate_t R_mpc_seed_state;
+static int R_mpc_seed_init = 0;
+
 static int max(int a, int b) {
 	return (b<a) ? a : b;
 }
@@ -145,6 +148,15 @@ SEXP R_mpc_get_prec(SEXP ptr) {
 	return R_NilValue;
 }
 
+SEXP MakeMPC(mpc_t *z) {
+	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z,
+		Rf_install("mpc ptr"), R_NilValue));
+	Rf_setAttrib(retVal, R_ClassSymbol, Rf_mkString("mpc"));
+	R_RegisterCFinalizerEx(retVal, mpcFinalizer, TRUE);
+	UNPROTECT(1);
+	return retVal;
+}
+
 /* R_mpc - Create an MPC S3 object for arbitrary precision complex numbers.
  *
  * We currently use external pointers for performance reasons, which
@@ -178,16 +190,7 @@ SEXP R_mpc(SEXP n, SEXP sprec) {
 		Rf_error("Unsupported type conversion to MPC.");
 	}
 
-
-	/* Now, instead of making external pointers, lets return other types. */
-
-	/* Lets just make it an external pointer with a class "MPC" */
-	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z,
-		Rf_install("mpc ptr"), R_NilValue));
-	Rf_setAttrib(retVal, R_ClassSymbol, Rf_mkString("mpc"));
-	R_RegisterCFinalizerEx(retVal, mpcFinalizer, TRUE);
-	UNPROTECT(1);
-	return retVal;
+	return(MakeMPC(z));
 }
 
 
@@ -470,4 +473,26 @@ SEXP R_ulp(SEXP y, SEXP z)
         f = fabs(f - ldexp(REAL(z)[0], -n));
         f = ldexp(f, DBL_MANT_DIG - 1);
         return Rf_ScalarReal(f);
+}
+
+SEXP R_mpc_urandom(SEXP sprec)
+{
+	mpfr_prec_t prec = INTEGER(sprec)[0];
+	mpc_t *z = (mpc_t *)malloc(sizeof(mpc_t));
+	if (z == NULL) {
+		Rf_error("Could not allocate memory for MPC type.");
+	}
+	mpc_init2(*z, prec);
+
+	if (!R_mpc_seed_init) {
+		gmp_randinit_default(R_mpc_seed_state);
+		R_mpc_seed_init = 1;
+	}
+	mpc_urandom((mpc_ptr)z, R_mpc_seed_state);
+	return(MakeMPC(z));
+}
+
+SEXP R_mpc_get_version()
+{
+	return Rf_mkString(mpc_get_version());
 }
