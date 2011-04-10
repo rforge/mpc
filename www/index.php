@@ -42,6 +42,20 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 <a href="http://r-forge.r-project.org/"><img src="<?php echo $themeroot; ?>/images/logo.png" border="0" alt="R-Forge Logo" /> </a> </td> </tr>
 </table>
 
+<h1>Dependencies</h1>
+
+<ul>
+<li>libmpc: The MPC C library is required for this package.  It can be installed easily on Debian Linux-based systems with :
+<pre>
+$ sudo apt-get install libmpc-dev
+</pre>
+Or on BSD systems with:
+<pre>
+$ pkg_add -r mpc
+</pre>
+</li>
+</ul>
+
 <h1>Installation</h1>
 
 <p>Eventually, you will be able to install with just:</p>
