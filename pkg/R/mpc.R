@@ -26,7 +26,7 @@ mpc <- function(z, precision) {
   }
 }
 
-as.mpc <- function(z, precision=52) {
+as.mpc <- function(z, precision) {
   stopifnot(is.numeric(precision))
   stopifnot(is.numeric(z) || is.complex(z))
   .Call("R_mpc", z, as.integer(precision), PACKAGE="mpc")
@@ -100,9 +100,4 @@ ulp <- function(x, y) {
   stopifnot(is.numeric(x), is.numeric(y))
   stopifnot(length(x) == length(y))
   return(.Call("R_ulp", x, y, PACKAGE="mpc"))
-}
-
-GetPrecision <- function(z) {
-  stopifnot(inherits(z, "mpc"))
-  return(.Call("R_mpc_get_prec", z, PACKAGE="mpc"))
 }

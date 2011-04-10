@@ -17,23 +17,35 @@
 %
 % http://mpc.r-forge.r-project.org/
 \name{mpc-utils}
+\alias{mpc-utils}
 \alias{getPrec}
-\title{mpc -- Utilities for Getting Precision, Printing, etc}
+\alias{mpcVersion}
+\alias{urandom.mpc}
+\title{mpc -- Utilities for Getting Precision, Version, etc}
 \description{
   This page documents utilities from package \pkg{mpc}.
 }
 \usage{
 getPrec(z)
+urandom.mpc(precision)
+mpcVersion()
 }
 \arguments{
   \item{z}{An MPC object representing a complex number in arbitary
     precision floating point.}
+  \item{precision}{The number of bits of precision that should be used
+    to represent the returned complex number \eqn{z}.}
 }
 \value{
   \code{getPrec(z)} returns a \code{\link{integer}} vector of length 2
   where the first element contains the number of bits of precision
   of the real part of \code{z} and the second element contains the
   number of bits of precision of the imaginary part of \code{z}.
+  
+  \code{urandom.mpc(precision)} returns a uniformly distributed random
+  complex \code{\link{mpc}} object in the unit square [0,1]*[0,1].
+
+  \code{mpcVersion} returns the MPC library version as a string.
 }
 \seealso{
   \code{\link{mpc}}.
@@ -49,5 +61,10 @@ getPrec(z2)  # 200 bits.
 
 z3 <- z1 + z2
 getPrec(z3)  # 200 bits
+
+urandom.mpc(53)
+urandom.mpc(53)
+
+mpcVersion()
 }
 \keyword{utilities}
