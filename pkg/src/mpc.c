@@ -216,7 +216,9 @@ SEXP R_mpc_add(SEXP e1, SEXP e2) {
 	} else if (Rf_isNumeric(e2)) {
 		mpfr_t x;
 		mpfr_init2(x, 53);
-		mpfr_set_d(x, REAL(e2)[0], MPFR_RNDN);
+                // We use GMP_RNDN rather than MPFR_RNDN for compatibility
+                // with mpfr 2.4.x and earlier as well as more modern versions.
+		mpfr_set_d(x, REAL(e2)[0], GMP_RNDN);
 /*	TODO support mpfr packge somehow.  Create one from a numeric. */
 		/* Max of mpc precision z2 and 53 from e2. */
 		Rprintf("Precision: %d\n", mpc_get_prec(*z1));
@@ -254,7 +256,7 @@ SEXP R_mpc_sub(SEXP e1, SEXP e2) {
 		} else if (Rf_isNumeric(e2)) {
 			mpfr_t x;
 			mpfr_init2(x, 53);
-			mpfr_set_d(x, REAL(e2)[0], MPFR_RNDN);
+			mpfr_set_d(x, REAL(e2)[0], GMP_RNDN);
 /*	TODO support mpfr packge somehow.  Create one from a numeric. */
 		/* Max of mpc precision z2 and 53 from e2. */
 			Rprintf("Precision: %d\n", mpc_get_prec(*z1));
@@ -277,7 +279,7 @@ SEXP R_mpc_sub(SEXP e1, SEXP e2) {
 			mpc_init2(*z, mpc_get_prec(*z2));
 			mpfr_t x;
 			mpfr_init2(x, 53);
-			mpfr_set_d(x, REAL(e1)[0], MPFR_RNDN);
+			mpfr_set_d(x, REAL(e1)[0], GMP_RNDN);
 			mpc_fr_sub(*z, x, *z2, Rmpc_get_rounding());
 		} else {
 			Rf_error("Unsupported type for operands for MPC subtraction.");
@@ -310,7 +312,7 @@ SEXP R_mpc_mul(SEXP e1, SEXP e2) {
 			mpc_init2(*z, mpc_get_prec(*z1));
 			mpfr_t x;
 			mpfr_init2(x, 53);
-			mpfr_set_d(x, REAL(e2)[0], MPFR_RNDN);
+			mpfr_set_d(x, REAL(e2)[0], GMP_RNDN);
 			mpc_mul_fr(*z, *z1, x, Rmpc_get_rounding());
 		} else {
 			Rf_error("Invalid second operand for mpc multiplication.");
@@ -341,7 +343,7 @@ SEXP R_mpc_div(SEXP e1, SEXP e2) {
 			mpc_init2(*z, mpc_get_prec(*z1));
 			mpfr_t x;
 			mpfr_init2(x, 53);
-			mpfr_set_d(x, REAL(e2)[0], MPFR_RNDN);
+			mpfr_set_d(x, REAL(e2)[0], GMP_RNDN);
 			mpc_div_fr(*z, *z1, x, Rmpc_get_rounding());
 		} else {
 			Rf_error("Invalid second operand for mpc division.");
@@ -360,7 +362,7 @@ SEXP R_mpc_div(SEXP e1, SEXP e2) {
 			mpc_t *z2 = (mpc_t *)R_ExternalPtrAddr(e2);
 			mpfr_t x;
 			mpfr_init2(x, 53);
-			mpfr_set_d(x, REAL(e2)[0], MPFR_RNDN);
+			mpfr_set_d(x, REAL(e2)[0], GMP_RNDN);
 			mpc_fr_div(*z, x, *z2, Rmpc_get_rounding());
 
 		} else {
