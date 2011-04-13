@@ -5,7 +5,7 @@ Version: 0.1
 Date: 2011-03-05
 Author: Murray Stokely
 Maintainer: Murray Stokely <murray@stokely.org>
-Depends: methods, R (>= 2.9.1), Rmpfr
+Depends: R (>= 2.9.1)
 SystemRequirements: MPFR (MP Floating-Point Reliable Library,
         http://mpfr.org/), GMP (GNU Multiple Precision library,
         http://gmplib.org/), and MPC (Multiple Precision Complex
