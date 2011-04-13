@@ -1743,6 +1743,11 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
+case "$target" in
+ *freebsd*)
+   CFLAGS="$CFLAGS -L/usr/local/lib -I/usr/local/include"
+esac
+
 PKG_CPPFLAGS=$CPPFLAGS
 PKG_CFLAGS=$CFLAGS
 PKG_LDFLAGS=$LDFLAGS

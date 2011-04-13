@@ -2,6 +2,11 @@
 AC_INIT([mpc])
 AC_CONFIG_SRCDIR([DESCRIPTION])
 
+case "$target" in
+ *freebsd*)
+   CFLAGS="$CFLAGS -L/usr/local/lib -I/usr/local/include"
+esac
+
 PKG_CPPFLAGS=$CPPFLAGS
 PKG_CFLAGS=$CFLAGS
 PKG_LDFLAGS=$LDFLAGS
