@@ -32,7 +32,7 @@
 /* 5.6 Projection and Decomposing Functions. */
 
 /* Only supported for components that fit in a real. */
-/* TODO(mstokely): Support larger components here. */
+/* TODO(mstokely): Support larger components here with Rmpfr. */
 
 SEXP R_mpc_real(SEXP e1) {
 	if (Rf_inherits(e1, "mpc")) {

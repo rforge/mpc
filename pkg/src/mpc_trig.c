@@ -44,7 +44,8 @@ SEXP R_mpc_sin(SEXP x) {
 	mpc_t *z1 = (mpc_t *)R_ExternalPtrAddr(x);
 	mpc_init2(*z, mpc_get_prec(*z1));
 	mpc_sin(*z, *z1, MPC_RNDNN);
-	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z, Rf_install("mpc ptr"), R_NilValue));
+	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z,
+		Rf_install("mpc ptr"), R_NilValue));
 	Rf_setAttrib(retVal, R_ClassSymbol, Rf_mkString("mpc"));
 	R_RegisterCFinalizerEx(retVal, mpcFinalizer, TRUE);
 	UNPROTECT(1);
@@ -60,7 +61,8 @@ SEXP R_mpc_cos(SEXP x) {
 	mpc_t *z1 = (mpc_t *)R_ExternalPtrAddr(x);
 	mpc_init2(*z, mpc_get_prec(*z1));
 	mpc_cos(*z, *z1, MPC_RNDNN);
-	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z, Rf_install("mpc ptr"), R_NilValue));
+	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z,
+		Rf_install("mpc ptr"), R_NilValue));
 	Rf_setAttrib(retVal, R_ClassSymbol, Rf_mkString("mpc"));
 	R_RegisterCFinalizerEx(retVal, mpcFinalizer, TRUE);
 	UNPROTECT(1);
@@ -76,7 +78,8 @@ SEXP R_mpc_tan(SEXP x) {
 	mpc_t *z1 = (mpc_t *)R_ExternalPtrAddr(x);
 	mpc_init2(*z, mpc_get_prec(*z1));
 	mpc_tan(*z, *z1, MPC_RNDNN);
-	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z, Rf_install("mpc ptr"), R_NilValue));
+	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z,
+		Rf_install("mpc ptr"), R_NilValue));
 	Rf_setAttrib(retVal, R_ClassSymbol, Rf_mkString("mpc"));
 	R_RegisterCFinalizerEx(retVal, mpcFinalizer, TRUE);
 	UNPROTECT(1);
@@ -92,7 +95,8 @@ SEXP R_mpc_sinh(SEXP x) {
 	mpc_t *z1 = (mpc_t *)R_ExternalPtrAddr(x);
 	mpc_init2(*z, mpc_get_prec(*z1));
 	mpc_sinh(*z, *z1, MPC_RNDNN);
-	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z, Rf_install("mpc ptr"), R_NilValue));
+	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z,
+		Rf_install("mpc ptr"), R_NilValue));
 	Rf_setAttrib(retVal, R_ClassSymbol, Rf_mkString("mpc"));
 	R_RegisterCFinalizerEx(retVal, mpcFinalizer, TRUE);
 	UNPROTECT(1);
@@ -108,7 +112,8 @@ SEXP R_mpc_cosh(SEXP x) {
 	mpc_t *z1 = (mpc_t *)R_ExternalPtrAddr(x);
 	mpc_init2(*z, mpc_get_prec(*z1));
 	mpc_cosh(*z, *z1, MPC_RNDNN);
-	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z, Rf_install("mpc ptr"), R_NilValue));
+	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z,
+		Rf_install("mpc ptr"), R_NilValue));
 	Rf_setAttrib(retVal, R_ClassSymbol, Rf_mkString("mpc"));
 	R_RegisterCFinalizerEx(retVal, mpcFinalizer, TRUE);
 	UNPROTECT(1);
@@ -124,7 +129,8 @@ SEXP R_mpc_tanh(SEXP x) {
 	mpc_t *z1 = (mpc_t *)R_ExternalPtrAddr(x);
 	mpc_init2(*z, mpc_get_prec(*z1));
 	mpc_tanh(*z, *z1, MPC_RNDNN);
-	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z, Rf_install("mpc ptr"), R_NilValue));
+	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z,
+		Rf_install("mpc ptr"), R_NilValue));
 	Rf_setAttrib(retVal, R_ClassSymbol, Rf_mkString("mpc"));
 	R_RegisterCFinalizerEx(retVal, mpcFinalizer, TRUE);
 	UNPROTECT(1);
@@ -140,7 +146,8 @@ SEXP R_mpc_asin(SEXP x) {
 	mpc_t *z1 = (mpc_t *)R_ExternalPtrAddr(x);
 	mpc_init2(*z, mpc_get_prec(*z1));
 	mpc_asin(*z, *z1, MPC_RNDNN);
-	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z, Rf_install("mpc ptr"), R_NilValue));
+	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z,
+		Rf_install("mpc ptr"), R_NilValue));
 	Rf_setAttrib(retVal, R_ClassSymbol, Rf_mkString("mpc"));
 	R_RegisterCFinalizerEx(retVal, mpcFinalizer, TRUE);
 	UNPROTECT(1);
@@ -156,7 +163,8 @@ SEXP R_mpc_acos(SEXP x) {
 	mpc_t *z1 = (mpc_t *)R_ExternalPtrAddr(x);
 	mpc_init2(*z, mpc_get_prec(*z1));
 	mpc_acos(*z, *z1, MPC_RNDNN);
-	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z, Rf_install("mpc ptr"), R_NilValue));
+	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z,
+		Rf_install("mpc ptr"), R_NilValue));
 	Rf_setAttrib(retVal, R_ClassSymbol, Rf_mkString("mpc"));
 	R_RegisterCFinalizerEx(retVal, mpcFinalizer, TRUE);
 	UNPROTECT(1);
@@ -172,7 +180,8 @@ SEXP R_mpc_atan(SEXP x) {
 	mpc_t *z1 = (mpc_t *)R_ExternalPtrAddr(x);
 	mpc_init2(*z, mpc_get_prec(*z1));
 	mpc_atan(*z, *z1, MPC_RNDNN);
-	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z, Rf_install("mpc ptr"), R_NilValue));
+	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z,
+		Rf_install("mpc ptr"), R_NilValue));
 	Rf_setAttrib(retVal, R_ClassSymbol, Rf_mkString("mpc"));
 	R_RegisterCFinalizerEx(retVal, mpcFinalizer, TRUE);
 	UNPROTECT(1);
@@ -188,7 +197,8 @@ SEXP R_mpc_asinh(SEXP x) {
 	mpc_t *z1 = (mpc_t *)R_ExternalPtrAddr(x);
 	mpc_init2(*z, mpc_get_prec(*z1));
 	mpc_asinh(*z, *z1, MPC_RNDNN);
-	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z, Rf_install("mpc ptr"), R_NilValue));
+	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z,
+		Rf_install("mpc ptr"), R_NilValue));
 	Rf_setAttrib(retVal, R_ClassSymbol, Rf_mkString("mpc"));
 	R_RegisterCFinalizerEx(retVal, mpcFinalizer, TRUE);
 	UNPROTECT(1);
@@ -204,7 +214,8 @@ SEXP R_mpc_acosh(SEXP x) {
 	mpc_t *z1 = (mpc_t *)R_ExternalPtrAddr(x);
 	mpc_init2(*z, mpc_get_prec(*z1));
 	mpc_acosh(*z, *z1, MPC_RNDNN);
-	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z, Rf_install("mpc ptr"), R_NilValue));
+	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z,
+		Rf_install("mpc ptr"), R_NilValue));
 	Rf_setAttrib(retVal, R_ClassSymbol, Rf_mkString("mpc"));
 	R_RegisterCFinalizerEx(retVal, mpcFinalizer, TRUE);
 	UNPROTECT(1);
@@ -220,7 +231,8 @@ SEXP R_mpc_atanh(SEXP x) {
 	mpc_t *z1 = (mpc_t *)R_ExternalPtrAddr(x);
 	mpc_init2(*z, mpc_get_prec(*z1));
 	mpc_atanh(*z, *z1, MPC_RNDNN);
-	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z, Rf_install("mpc ptr"), R_NilValue));
+	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z,
+		Rf_install("mpc ptr"), R_NilValue));
 	Rf_setAttrib(retVal, R_ClassSymbol, Rf_mkString("mpc"));
 	R_RegisterCFinalizerEx(retVal, mpcFinalizer, TRUE);
 	UNPROTECT(1);

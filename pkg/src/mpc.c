@@ -35,7 +35,7 @@ static gmp_randstate_t R_mpc_seed_state;
 static int R_mpc_seed_init = 0;
 
 static int max(int a, int b) {
-	return (b<a) ? a : b;
+	return (b < a) ? a : b;
 }
 
 void mpcFinalizer(SEXP ptr) {
@@ -47,9 +47,22 @@ void mpcFinalizer(SEXP ptr) {
 	}
 }
 
+/* Rmpc_get_max_prec - return the maximum precision of two mpc_t.
+ *
+ * Reads in the precision used for storing the two provided mpc_t
+ * variables and stores the maximum of the real and imaginary
+ * precision through the provided pointers.
+ *
+ * Args:
+ *   real_prec: Pointer to store the necessary precision for real part.
+ *   imag_prec: Pointer to store the necessary precision for imaginary part.
+ *   z1:        An mpc_t
+ *   z2:        An mpc_t
+ * Return value:
+ *   None.
+ */
 void Rmpc_get_max_prec(mpfr_prec_t *real_prec,
     mpfr_prec_t *imag_prec, mpc_t z1, mpc_t z2) {
-
 	mpfr_prec_t rp1, ip1, rp2, ip2;
 	mpc_get_prec2(&rp1, &ip1, z1);
 	mpc_get_prec2(&rp2, &ip2, z2);
@@ -59,6 +72,7 @@ void Rmpc_get_max_prec(mpfr_prec_t *real_prec,
 }
 
 /* Rmpc_get_rounding - return the MPC rounding method based on R option.
+ *
  * Args:
  *   None
  * Return value:
@@ -148,6 +162,13 @@ SEXP R_mpc_get_prec(SEXP ptr) {
 	return R_NilValue;
 }
 
+/* MakeMPC - Create an MPC ExternalPtr object for R based on a C mpc_t.
+ *
+ * Args:
+ *   z -    An mpc_t pointer.
+ * Returns:
+ *   An S3 object of type "mpc" containing the external pointer to z.
+ */
 SEXP MakeMPC(mpc_t *z) {
 	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z,
 		Rf_install("mpc ptr"), R_NilValue));
@@ -182,14 +203,14 @@ SEXP R_mpc(SEXP n, SEXP sprec) {
 	if (Rf_isNumeric(n)) {
 		mpc_set_d(*z, REAL(n)[0], Rmpc_get_rounding());
 	} else if (Rf_isComplex(n)) {
-		mpc_set_d_d(*z, COMPLEX(n)[0].r, COMPLEX(n)[0].i, Rmpc_get_rounding());
+		mpc_set_d_d(*z, COMPLEX(n)[0].r, COMPLEX(n)[0].i,
+		    Rmpc_get_rounding());
 	} else if (Rf_isString(n)) {
 		mpc_set_str(*z, CHAR(STRING_ELT(n, 0)), 10,
 		    Rmpc_get_rounding());
 	} else {
 		Rf_error("Unsupported type conversion to MPC.");
 	}
-
 	return(MakeMPC(z));
 }
 
@@ -197,7 +218,6 @@ SEXP R_mpc(SEXP n, SEXP sprec) {
 /* Section 5.7 Basic Arithmetic Functions */
 
 SEXP R_mpc_add(SEXP e1, SEXP e2) {
-	/* TODO switch on class of e2 here don't assume both mpc. */
 	mpc_t *z1 = (mpc_t *)R_ExternalPtrAddr(e1);
 	mpc_t *z = (mpc_t *)malloc(sizeof(mpc_t));
 	if (z == NULL) {
@@ -219,16 +239,17 @@ SEXP R_mpc_add(SEXP e1, SEXP e2) {
                 // We use GMP_RNDN rather than MPFR_RNDN for compatibility
                 // with mpfr 2.4.x and earlier as well as more modern versions.
 		mpfr_set_d(x, REAL(e2)[0], GMP_RNDN);
-/*	TODO support mpfr packge somehow.  Create one from a numeric. */
 		/* Max of mpc precision z2 and 53 from e2. */
 		Rprintf("Precision: %d\n", mpc_get_prec(*z1));
-		mpc_init2(*z, mpc_get_prec(*z1));
+		mpc_init2(*z, max(mpc_get_prec(*z1), 53));
 		mpc_add_fr(*z, *z1, x, Rmpc_get_rounding());
 	} else {
+		/* TODO(mstokely): Add support for mpfr types here. */
 		free(z);
 		Rf_error("Invalid second operand for mpc addition.");
 	}
-	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z, Rf_install("mpc ptr"), R_NilValue));
+	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z,
+		Rf_install("mpc ptr"), R_NilValue));
 	Rf_setAttrib(retVal, R_ClassSymbol, Rf_mkString("mpc"));
 	R_RegisterCFinalizerEx(retVal, mpcFinalizer, TRUE);
 	UNPROTECT(1);
@@ -237,7 +258,6 @@ SEXP R_mpc_add(SEXP e1, SEXP e2) {
 
 
 SEXP R_mpc_sub(SEXP e1, SEXP e2) {
-	/* TODO switch on class of e2 here don't assume both mpc. */
 	mpc_t *z = (mpc_t *)malloc(sizeof(mpc_t));
 	if (z == NULL) {
 		Rf_error("Could not allocate memory for MPC type.");
@@ -248,17 +268,17 @@ SEXP R_mpc_sub(SEXP e1, SEXP e2) {
 		mpc_t *z1 = (mpc_t *)R_ExternalPtrAddr(e1);
 		if (Rf_inherits(e2, "mpc")) {
 			mpc_t *z2 = (mpc_t *)R_ExternalPtrAddr(e2);
-			mpc_init2(*z, max(mpc_get_prec(*z1), mpc_get_prec(*z2)));
+			mpc_init2(*z, max(mpc_get_prec(*z1),
+				mpc_get_prec(*z2)));
 			mpc_sub(*z, *z1, *z2, Rmpc_get_rounding());
 		} else if (Rf_isInteger(e2)) {
 			mpc_init2(*z, mpc_get_prec(*z1));
-			mpc_sub_ui(*z, *z1, INTEGER(e2)[0], Rmpc_get_rounding());
+			mpc_sub_ui(*z, *z1, INTEGER(e2)[0],
+			    Rmpc_get_rounding());
 		} else if (Rf_isNumeric(e2)) {
 			mpfr_t x;
 			mpfr_init2(x, 53);
 			mpfr_set_d(x, REAL(e2)[0], GMP_RNDN);
-/*	TODO support mpfr packge somehow.  Create one from a numeric. */
-		/* Max of mpc precision z2 and 53 from e2. */
 			Rprintf("Precision: %d\n", mpc_get_prec(*z1));
 			mpc_init2(*z, max(mpc_get_prec(*z1), 53));
 			mpc_sub_fr(*z, *z1, x, Rmpc_get_rounding());
@@ -269,7 +289,8 @@ SEXP R_mpc_sub(SEXP e1, SEXP e2) {
 		if (Rf_inherits(e2, "mpc")) {
 			mpc_t *z2 = (mpc_t *)R_ExternalPtrAddr(e2);
 			mpc_init2(*z, mpc_get_prec(*z2));
-			mpc_ui_sub(*z, INTEGER(e1)[0], *z2, Rmpc_get_rounding());
+			mpc_ui_sub(*z, INTEGER(e1)[0], *z2,
+			    Rmpc_get_rounding());
 		} else {
 			Rf_error("Unsupported type for operands for MPC subtraction.");
 		}
@@ -285,11 +306,13 @@ SEXP R_mpc_sub(SEXP e1, SEXP e2) {
 			Rf_error("Unsupported type for operands for MPC subtraction.");
 		}
 	} else {
+		/* TODO(mstokely): Add support for mpfr types here. */
 		Rprintf("It's unknown");
 		free(z);
 		Rf_error("Invalid second operand for mpc subtraction.");
 	}
-	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z, Rf_install("mpc ptr"), R_NilValue));
+	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z,
+		Rf_install("mpc ptr"), R_NilValue));
 	Rf_setAttrib(retVal, R_ClassSymbol, Rf_mkString("mpc"));
 	R_RegisterCFinalizerEx(retVal, mpcFinalizer, TRUE);
 	UNPROTECT(1);
@@ -303,11 +326,13 @@ SEXP R_mpc_mul(SEXP e1, SEXP e2) {
 		mpc_t *z1 = (mpc_t *)R_ExternalPtrAddr(e1);
 		if (Rf_inherits(e2, "mpc")) {
 			mpc_t *z2 = (mpc_t *)R_ExternalPtrAddr(e2);
-			mpc_init2(*z, max(mpc_get_prec(*z1), mpc_get_prec(*z2)));
+			mpc_init2(*z, max(mpc_get_prec(*z1),
+				mpc_get_prec(*z2)));
 			mpc_mul(*z, *z1, *z2, Rmpc_get_rounding());
 		} else if (Rf_isInteger(e2)) {
 			mpc_init2(*z, mpc_get_prec(*z1));
-			mpc_mul_si(*z, *z1, INTEGER(e2)[0], Rmpc_get_rounding());
+			mpc_mul_si(*z, *z1, INTEGER(e2)[0],
+			    Rmpc_get_rounding());
 		} else if (Rf_isNumeric(e2)) {
 			mpc_init2(*z, mpc_get_prec(*z1));
 			mpfr_t x;
@@ -320,7 +345,8 @@ SEXP R_mpc_mul(SEXP e1, SEXP e2) {
 	} else {
 		Rf_error("Invalid first operand for MPC multiplication.");
 	}
-	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z, Rf_install("mpc ptr"), R_NilValue));
+	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z,
+		Rf_install("mpc ptr"), R_NilValue));
 	Rf_setAttrib(retVal, R_ClassSymbol, Rf_mkString("mpc"));
 	R_RegisterCFinalizerEx(retVal, mpcFinalizer, TRUE);
 	UNPROTECT(1);
@@ -334,11 +360,13 @@ SEXP R_mpc_div(SEXP e1, SEXP e2) {
 		mpc_t *z1 = (mpc_t *)R_ExternalPtrAddr(e1);
 		if (Rf_inherits(e2, "mpc")) {
 			mpc_t *z2 = (mpc_t *)R_ExternalPtrAddr(e2);
-			mpc_init2(*z, max(mpc_get_prec(*z1), mpc_get_prec(*z2)));
+			mpc_init2(*z, max(mpc_get_prec(*z1),
+				mpc_get_prec(*z2)));
 			mpc_div(*z, *z1, *z2, Rmpc_get_rounding());
 		} else if (Rf_isInteger(e2)) {
 			mpc_init2(*z, mpc_get_prec(*z1));
-			mpc_div_ui(*z, *z1, INTEGER(e2)[0], Rmpc_get_rounding());
+			mpc_div_ui(*z, *z1, INTEGER(e2)[0],
+			    Rmpc_get_rounding());
 		} else if (Rf_isNumeric(e2)) {
 			mpc_init2(*z, mpc_get_prec(*z1));
 			mpfr_t x;
@@ -350,10 +378,12 @@ SEXP R_mpc_div(SEXP e1, SEXP e2) {
 		}
 	} else if (Rf_isInteger(e1)) {
 		if (Rf_inherits(e2, "mpc")) {
-			/* TODO: sign issue here.  mpc_ui_div is unsigned, mult -1 if needed by asnwer? */
+			/* TODO: sign issue here.  mpc_ui_div is
+			 * unsigned, mult -1 if needed by asnwer? */
 			mpc_t *z2 = (mpc_t *)R_ExternalPtrAddr(e2);
 			mpc_init2(*z, mpc_get_prec(*z2));
-			mpc_ui_div(*z, INTEGER(e1)[0], *z2, Rmpc_get_rounding());
+			mpc_ui_div(*z, INTEGER(e1)[0], *z2,
+			    Rmpc_get_rounding());
 		} else {
 			Rf_error("Invalid second operand for mpc division.");
 		}
@@ -371,7 +401,8 @@ SEXP R_mpc_div(SEXP e1, SEXP e2) {
 	} else {
 		Rf_error("Invalid operands for mpc division.");
 	}
-	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z, Rf_install("mpc ptr"), R_NilValue));
+	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z,
+		Rf_install("mpc ptr"), R_NilValue));
 	Rf_setAttrib(retVal, R_ClassSymbol, Rf_mkString("mpc"));
 	R_RegisterCFinalizerEx(retVal, mpcFinalizer, TRUE);
 	UNPROTECT(1);
@@ -379,7 +410,8 @@ SEXP R_mpc_div(SEXP e1, SEXP e2) {
 }
 
 SEXP R_mpc_neg(SEXP e1) {
-	/* Garbage collector will be confused if we just call mpc_neg(*z, *z, ...) */
+	/* Garbage collector will be confused if we just call
+	 * mpc_neg(*z, *z, ...) */
 	mpc_t *z = (mpc_t *)malloc(sizeof(mpc_t));
 	if (Rf_inherits(e1, "mpc")) {
 		mpc_t *z1 = (mpc_t *)R_ExternalPtrAddr(e1);
@@ -388,7 +420,8 @@ SEXP R_mpc_neg(SEXP e1) {
 	} else {
 		Rf_error("Invalid operands for mpc negation.");
 	}
-	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z, Rf_install("mpc ptr"), R_NilValue));
+	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z,
+		Rf_install("mpc ptr"), R_NilValue));
 	Rf_setAttrib(retVal, R_ClassSymbol, Rf_mkString("mpc"));
 	R_RegisterCFinalizerEx(retVal, mpcFinalizer, TRUE);
 	UNPROTECT(1);
@@ -403,11 +436,13 @@ SEXP R_mpc_pow(SEXP e1, SEXP e2) {
 		mpc_t *z1 = (mpc_t *)R_ExternalPtrAddr(e1);
 		if (Rf_inherits(e2, "mpc")) {
 			mpc_t *z2 = (mpc_t *)R_ExternalPtrAddr(e2);
-			mpc_init2(*z, max(mpc_get_prec(*z1), mpc_get_prec(*z2)));
+			mpc_init2(*z, max(mpc_get_prec(*z1),
+				mpc_get_prec(*z2)));
 			mpc_pow(*z, *z1, *z2, Rmpc_get_rounding());
 		} else if (Rf_isInteger(e2)) {
 			mpc_init2(*z, mpc_get_prec(*z1));
-			mpc_pow_si(*z, *z1, INTEGER(e2)[0], Rmpc_get_rounding());
+			mpc_pow_si(*z, *z1, INTEGER(e2)[0],
+			    Rmpc_get_rounding());
 		} else if (Rf_isNumeric(e2)) {
 			mpc_init2(*z, mpc_get_prec(*z1));
 			mpc_pow_d(*z, *z1, REAL(e2)[0], Rmpc_get_rounding());
@@ -417,7 +452,8 @@ SEXP R_mpc_pow(SEXP e1, SEXP e2) {
 	} else {
 		Rf_error("Invalid first operand for MPC power.");
 	}
-	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z, Rf_install("mpc ptr"), R_NilValue));
+	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z,
+		Rf_install("mpc ptr"), R_NilValue));
 	Rf_setAttrib(retVal, R_ClassSymbol, Rf_mkString("mpc"));
 	R_RegisterCFinalizerEx(retVal, mpcFinalizer, TRUE);
 	UNPROTECT(1);
@@ -443,7 +479,8 @@ SEXP R_mpc_cmp(SEXP e1, SEXP e2) {
 			mpc_t *z2 = (mpc_t *)R_ExternalPtrAddr(e2);
 			return(Rf_ScalarInteger(mpc_cmp(*z1, *z2)));
 		} else if (Rf_isInteger(e2)) {
-			return(Rf_ScalarInteger(mpc_cmp_si(*z1, INTEGER(e2)[0])));
+			return(Rf_ScalarInteger(mpc_cmp_si(*z1,
+				    INTEGER(e2)[0])));
 		} else {
 			Rf_error("Invalid operand for mpc cmp.");
 		}
@@ -460,7 +497,8 @@ SEXP R_mpc_conj(SEXP x) {
 	mpc_t *z1 = (mpc_t *)R_ExternalPtrAddr(x);
 	mpc_init2(*z, mpc_get_prec(*z1));
 	mpc_conj(*z, *z1, Rmpc_get_rounding());
-	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z, Rf_install("mpc ptr"), R_NilValue));
+	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z,
+		Rf_install("mpc ptr"), R_NilValue));
 	Rf_setAttrib(retVal, R_ClassSymbol, Rf_mkString("mpc"));
 	R_RegisterCFinalizerEx(retVal, mpcFinalizer, TRUE);
 	UNPROTECT(1);

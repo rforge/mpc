@@ -43,7 +43,8 @@ SEXP R_mpc_log(SEXP e1) {
 	} else {
 		Rf_error("Invalid operand for MPC log.");
 	}
-	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z, Rf_install("mpc ptr"), R_NilValue));
+	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z,
+		Rf_install("mpc ptr"), R_NilValue));
 	Rf_setAttrib(retVal, R_ClassSymbol, Rf_mkString("mpc"));
 	R_RegisterCFinalizerEx(retVal, mpcFinalizer, TRUE);
 	UNPROTECT(1);
@@ -59,7 +60,8 @@ SEXP R_mpc_exp(SEXP e1) {
 	} else {
 		Rf_error("Invalid operand for MPC exp.");
 	}
-	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z, Rf_install("mpc ptr"), R_NilValue));
+	SEXP retVal = PROTECT(R_MakeExternalPtr((void *)z,
+		Rf_install("mpc ptr"), R_NilValue));
 	Rf_setAttrib(retVal, R_ClassSymbol, Rf_mkString("mpc"));
 	R_RegisterCFinalizerEx(retVal, mpcFinalizer, TRUE);
 	UNPROTECT(1);
