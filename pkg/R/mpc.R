@@ -96,8 +96,8 @@ exp.mpc <- function(x) {
 
 # Utilities for testing
 
-ulp <- function(x, y) {
-  stopifnot(is.numeric(x), is.numeric(y))
-  stopifnot(length(x) == length(y))
-  return(.Call("R_ulp", x, y, PACKAGE="mpc"))
-}
+#ulp <- function(x, y) {
+#  stopifnot(is.numeric(x), is.numeric(y))
+#  stopifnot(length(x) == length(y))
+#  return(.Call("R_ulp", x, y, PACKAGE="mpc"))
+#}

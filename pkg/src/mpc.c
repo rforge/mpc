@@ -505,15 +505,15 @@ SEXP R_mpc_conj(SEXP x) {
 	return retVal;
 }
 
-SEXP R_ulp(SEXP y, SEXP z)
-{
-        int n;
-        double f;
-        f = frexp(REAL(y)[0], &n);
-        f = fabs(f - ldexp(REAL(z)[0], -n));
-        f = ldexp(f, DBL_MANT_DIG - 1);
-        return Rf_ScalarReal(f);
-}
+//SEXP R_ulp(SEXP y, SEXP z)
+//{
+//        int n;
+//        double f;
+//        f = frexp(REAL(y)[0], &n);
+//        f = fabs(f - ldexp(REAL(z)[0], -n));
+//        f = ldexp(f, DBL_MANT_DIG - 1);
+//        return Rf_ScalarReal(f);
+//}
 
 SEXP R_mpc_urandom(SEXP sprec)
 {
