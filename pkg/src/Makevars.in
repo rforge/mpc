@@ -4,4 +4,4 @@
 # and  with MPFR (Multiple Precision Floating point Reliable) Libraries
 #
 PKG_LIBS = -lmpfr -lgmp -lmpc
-PKG_CFLAGS = -Wall -pedantic
+#PKG_CFLAGS = -Wall -pedantic
