@@ -18,6 +18,31 @@
 % http://mpc.r-forge.r-project.org/
 \name{mpc}
 \alias{mpc}
+\alias{Arg.mpc}
+\alias{Conj.mpc}
+\alias{Im.mpc}
+\alias{Ops.mpc}
+\alias{Re.mpc}
+\alias{acos.mpc}
+\alias{acosh.mpc}
+\alias{as.complex.mpc}
+\alias{as.double.mpc}
+\alias{as.mpc}
+\alias{asin.mpc}
+\alias{asinh.mpc}
+\alias{atan.mpc}
+\alias{atanh.mpc}
+\alias{cos.mpc}
+\alias{cosh.mpc}
+\alias{exp.mpc}
+\alias{is.mpc}
+\alias{log.mpc}
+\alias{print.mpc}
+\alias{sin.mpc}
+\alias{sinh.mpc}
+\alias{summary.mpc}
+\alias{tan.mpc}
+\alias{tanh.mpc}
 \title{Arbitrarily High Precision Complex Number Arithmetic}
 \description{
   A class for arbitrarily high precision complex number arithmetic.
@@ -68,6 +93,5 @@ summary(mpc(3,100) / mpc (3,100))
 
 options("mpc.rounding" = "MPC_RNDUU")
 summary(mpc(3,3) / mpc(3.01,3))
-
 }
 \keyword{complex}
