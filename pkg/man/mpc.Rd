@@ -21,7 +21,6 @@
 \alias{Arg.mpc}
 \alias{Conj.mpc}
 \alias{Im.mpc}
-\alias{Ops.mpc}
 \alias{Re.mpc}
 \alias{acos.mpc}
 \alias{acosh.mpc}
@@ -48,7 +47,7 @@
   A class for arbitrarily high precision complex number arithmetic.
 }
 \usage{
-mpc(z, precision)
+mpc(z, precision=NULL)
 }
 \arguments{
   \item{z}{A numeric value representing the real part of a complex
@@ -62,6 +61,9 @@ mpc(z, precision)
     as a numeric vector.
 }
 \details{
+  If the precision argument is \code{NULL} then the contents of the
+  \code{mpc.precision} option will be used instead.
+
   MPC supports 16 possible rounding modes for complex arithmetic which
   are specified through the \code{mpc.rounding} option.  The default
   rounding option, \code{MPC_RNDNN}, rounds both the real and imaginary

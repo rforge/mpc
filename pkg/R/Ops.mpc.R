@@ -48,8 +48,12 @@ Ops.mpc <- function (e1, e2)
        }
     },
     "*" = {
+      if (inherits(e1, "matrix")) {
+        stop("Matrix multiplication with MPC types not-yet supported.")
+      } else {
         stopifnot(inherits(e1, "mpc"))
         return(.Call("R_mpc_mul", e1, e2, PACKAGE="mpc"))
+      }
        },
     "/" = return(.Call("R_mpc_div", e1, e2, PACKAGE="mpc")),
     "^" = return(.Call("R_mpc_pow", e1, e2, PACKAGE="mpc")),

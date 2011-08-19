@@ -17,7 +17,10 @@
 #
 # http://mpc.r-forge.r-project.org/
 
-mpc <- function(z, precision) {
+mpc <- function(z, precision=NULL) {
+  if (is.null(precision)) {
+    precision = getOption("mpc.precision")
+  }
   stopifnot(is.numeric(precision))
   if (length(z) == 1) {
     .Call("R_mpc", z, as.integer(precision), PACKAGE="mpc")
@@ -26,7 +29,10 @@ mpc <- function(z, precision) {
   }
 }
 
-as.mpc <- function(z, precision) {
+as.mpc <- function(z, precision=NULL) {
+  if (is.null(precision)) {
+    precision = getOption("mpc.precision")
+  }
   stopifnot(is.numeric(precision))
   stopifnot(is.numeric(z) || is.complex(z))
   .Call("R_mpc", z, as.integer(precision), PACKAGE="mpc")
