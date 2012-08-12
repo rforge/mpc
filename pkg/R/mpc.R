@@ -25,7 +25,10 @@ mpc <- function(z, precision=NULL) {
   if (length(z) == 1) {
     .Call("R_mpc", z, as.integer(precision), PACKAGE="mpc")
   } else {
-    unlist(sapply(z, .Call("R_mpc", z, as.integer(precision), PACKAGE="mpc")))
+    unlist(sapply(z,
+                  function(x) {
+                    .Call("R_mpc", x, as.integer(precision), PACKAGE="mpc")
+                  }))
   }
 }
 
