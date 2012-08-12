@@ -200,7 +200,9 @@ SEXP R_mpc(SEXP n, SEXP sprec) {
 	}
 	mpc_init2(*z, prec);
 
-	if (Rf_isNumeric(n)) {
+	if (Rf_isInteger(n)) {
+		mpc_set_d(*z, INTEGER(n)[0], Rmpc_get_rounding());
+	} else if (Rf_isNumeric(n)) {
 		mpc_set_d(*z, REAL(n)[0], Rmpc_get_rounding());
 	} else if (Rf_isComplex(n)) {
 		mpc_set_d_d(*z, COMPLEX(n)[0].r, COMPLEX(n)[0].i,
