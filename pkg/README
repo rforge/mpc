@@ -5,6 +5,7 @@ The package mpc interfaces R to the C Library
 
 That is Free Software, available under the LGPL license.
 See http://multiprecision.org/
+(Tested with v0.9 and v1.0)
     ----------------
 
 MPC is itself built on and requires:

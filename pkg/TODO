@@ -1,8 +1,6 @@
-Vectorize as_mpc_numeric.
+Support matrix multiplication.
 
-malloc enough mpc_t's for sizeof(n), return a vector of external
-pointers for each of them, rather than just a single one, when a list
-of inputs is provided.
+Vectorize as_mpc_numeric.
 
 Add a vignette.
 

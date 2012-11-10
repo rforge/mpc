@@ -1,0 +1,6 @@
+2012-11-10  Murray Stokely  <murray@stokely.org>
+
+	* src/mpc.c (RNDC): Add define to support versions of MPC >= 1.0
+	  given the name change of the RNDC macro.
+	* zzz.R (.onLoad <- .First.lib): Set default mpc.precision option
+   	  to 100.

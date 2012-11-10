@@ -18,6 +18,18 @@
 % http://mpc.r-forge.r-project.org/
 \name{mpc operators}
 \alias{Ops.mpc}
+\alias{+.mpc}
+\alias{+}
+\alias{-.mpc}
+\alias{-}
+\alias{*.mpc}
+\alias{*}
+\alias{/.mpc}
+\alias{/}
+\alias{^.mpc}
+\alias{^}
+\alias{==.mpc}
+\alias{==}
 \title{Basic Arithmetic Operators for Arbitrarily High Precision Complex Numbers}
 \description{
   Addition, subtraction, multiplication, division, power, and equality

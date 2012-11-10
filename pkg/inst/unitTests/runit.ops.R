@@ -20,6 +20,7 @@
 test.cmp <- function() {
   checkTrue(as.integer(10) == mpc(10, 52))
   checkTrue(mpc(10,52) == mpc(10, 32))
+  checkTrue(mpc(10,52) == mpc(as.integer(10), 32))
   checkTrue(10 == mpc(10,52))
   checkTrue(mpc(10,52) == 10)
   checkTrue(mpc(10,52) != 10.1)

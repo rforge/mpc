@@ -21,4 +21,5 @@
 {
     library.dynam("mpc", pkg, lib)
     options("mpc.rounding" = "MPC_RNDNN")
+    options("mpc.precision" = 100)
 }

@@ -31,6 +31,11 @@
 #include <Rinternals.h>
 #include "Rmpc.h"
 
+/* RNDC was renamed MPC_RND in mpc 1.0 */
+#if !defined(RNDC) && (MPC_VERSION_NUM(1,0,0) <= MPC_VERSION)
+#define RNDC MPC_RND
+#endif
+
 static gmp_randstate_t R_mpc_seed_state;
 static int R_mpc_seed_init = 0;
 
