@@ -6,6 +6,7 @@ Date: 2012-11-09
 Author: Murray Stokely
 Maintainer: Murray Stokely <murray@stokely.org>
 Depends: R (>= 2.9.1)
+Suggests: RUnit
 SystemRequirements: MPFR (MP Floating-Point Reliable Library,
         http://mpfr.org/), GMP (GNU Multiple Precision library,
         http://gmplib.org/), and MPC (Multiple Precision Complex
