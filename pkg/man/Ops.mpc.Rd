@@ -19,29 +19,23 @@
 \name{mpc operators}
 \alias{Ops.mpc}
 \alias{+.mpc}
-\alias{+}
 \alias{-.mpc}
-\alias{-}
 \alias{*.mpc}
-\alias{*}
 \alias{/.mpc}
-\alias{/}
 \alias{^.mpc}
-\alias{^}
 \alias{==.mpc}
-\alias{==}
 \title{Basic Arithmetic Operators for Arbitrarily High Precision Complex Numbers}
 \description{
   Addition, subtraction, multiplication, division, power, and equality
   functions for MPC types.
 }
 \usage{
-x + y
-x - y
-x * y
-x / y
-x ^ y
-x == y
+\method{+}{mpc}(e1, e2)
+\method{-}{mpc}(e1, e2)
+\method{*}{mpc}(e1, e2)
+\method{/}{mpc}(e1, e2)
+\method{^}{mpc}(e1, e2)
+\method{==}{mpc}(e1, e2)
 }
 \arguments{
   \item{x, y}{MPC complex numbers.}
@@ -68,7 +62,6 @@ x == y
 }
 \examples{
 library(mpc)
-options(mpc.precision = 100)
-summary(mpc(3) + mpc (3,50))
+summary(mpc(3) + mpc(3,50))
 }
 \keyword{complex}
