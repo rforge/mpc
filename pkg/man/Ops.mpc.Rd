@@ -18,27 +18,29 @@
 % http://mpc.r-forge.r-project.org/
 \name{mpc operators}
 \alias{Ops.mpc}
-\alias{+.mpc}
-\alias{-.mpc}
-\alias{*.mpc}
-\alias{/.mpc}
-\alias{^.mpc}
-\alias{==.mpc}
+%\alias{+.mpc}
+%\alias{-.mpc}
+%\alias{*.mpc}
+%\alias{/.mpc}
+%\alias{^.mpc}
+%\alias{==.mpc}
 \title{Basic Arithmetic Operators for Arbitrarily High Precision Complex Numbers}
 \description{
   Addition, subtraction, multiplication, division, power, and equality
   functions for MPC types.
 }
 \usage{
-\method{+}{mpc}(e1, e2)
-\method{-}{mpc}(e1, e2)
-\method{*}{mpc}(e1, e2)
-\method{/}{mpc}(e1, e2)
-\method{^}{mpc}(e1, e2)
-\method{==}{mpc}(e1, e2)
+\method{Ops}{mpc}(e1, e2)
+%\method{+}{mpc}(e1, e2)
+%\method{-}{mpc}(e1, e2)
+%\method{*}{mpc}(e1, e2)
+%\method{/}{mpc}(e1, e2)
+%\method{^}{mpc}(e1, e2)
+%\method{==}{mpc}(e1, e2)
 }
 \arguments{
-  \item{x, y}{MPC complex numbers.}
+  \item{e1, e2}{MPC complex numbers, or some numeric and complex types
+    that can be coerced to MPC complex.}
 }
 \value{
   An object of (S3) class mpc, which the user should use as a normal
