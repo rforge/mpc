@@ -17,7 +17,7 @@
 #
 # http://mpc.r-forge.r-project.org/
 
-.onLoad <- .First.lib <- function(lib, pkg)
+.onLoad <- function(lib, pkg)
 {
     library.dynam("mpc", pkg, lib)
     options("mpc.rounding" = "MPC_RNDNN")

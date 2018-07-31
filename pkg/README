@@ -30,6 +30,11 @@ Under Debian and Ubuntu Linux distributions, it is sufficient to type:
 
       sudo apt-get install libmpc-dev
 
+Under Fedora, Redhat, CentOS, opensuse, etc, you get these via
+
+      sudo dnf install libmpc-devel
+
+
 For MacOS X, downloading the source from the websites above and
 compiling installing manually works fine, as does presumably the fink
 or portinstall tools for Darwin/MacOS X.

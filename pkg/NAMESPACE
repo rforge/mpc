@@ -1,6 +1,10 @@
 useDynLib(mpc, .registration=TRUE)
 
-exportPattern("^[^\\.]")# all but those starting with a '.' {too many!}
+## MM: should rather not export things likes `Ops.mpc`, `sin.mpc` :
+## --  exportPattern("^[^\\.]")# that don't start with a '.'
+export(mpc, as.mpc, is.mpc,
+       mpcVersion, getPrec,
+       urandom.mpc)
 
 S3method("Ops", "mpc")
 S3method("print", "mpc")

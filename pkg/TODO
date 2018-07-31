@@ -1,3 +1,5 @@
+- Vectorize mpc() correctly! Currently gives a list() instead of "mpc"
+
 Support matrix multiplication.
 
 Vectorize as_mpc_numeric.
