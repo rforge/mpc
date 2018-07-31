@@ -1,9 +1,13 @@
-useDynLib(mpc)
-exportPattern("^[^\\.]")
+useDynLib(mpc, .registration=TRUE)
+
+exportPattern("^[^\\.]")# all but those starting with a '.' {too many!}
 
 S3method("Ops", "mpc")
 S3method("print", "mpc")
 S3method("summary", "mpc")
+
+S3method(as.complex, mpc)
+S3method(as.double, mpc)
 
 # 5.6 Projection and Decomposing Functions
 S3method("Re", "mpc")

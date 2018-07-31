@@ -1,3 +1,4 @@
+# Copyright 2018 Martin Maechler
 # Copyright 2011 Google Inc.
 #
 # This library is free software; you can redistribute it and/or
@@ -29,22 +30,22 @@
   # mpc library can compare MPCs against integers or other MPCs,
   # but not floats or complex numbers, so convert if necessary.
   if ((is.numeric(e2) && !is.integer(e2)) || is.complex(e2)) {
-    e2 <- mpc(e2, .Call("R_mpc_get_prec", e1, PACKAGE="mpc"))
+    e2 <- mpc(e2, .Call(R_mpc_get_prec, e1))
   }
-  return(.Call("R_mpc_cmp", e1, e2, PACKAGE="mpc") == 0)
+  return(.Call(R_mpc_cmp, e1, e2) == 0)
 }
 
 Ops.mpc <- function (e1, e2) 
 {
     switch(.Generic,
     "+" = {
-             return(.Call("R_mpc_add", e1, e2, PACKAGE="mpc"))
+             return(.Call(R_mpc_add, e1, e2))
        },
     "-" = {
        if (missing(e2)) {
-          return(.Call("R_mpc_neg", e1, PACKAGE="mpc"))
+          return(.Call(R_mpc_neg, e1))
        } else {
-          return(.Call("R_mpc_sub", e1, e2, PACKAGE="mpc"))
+          return(.Call(R_mpc_sub, e1, e2))
        }
     },
     "*" = {
@@ -52,11 +53,11 @@ Ops.mpc <- function (e1, e2)
         stop("Matrix multiplication with MPC types not-yet supported.")
       } else {
         stopifnot(inherits(e1, "mpc"))
-        return(.Call("R_mpc_mul", e1, e2, PACKAGE="mpc"))
+        return(.Call(R_mpc_mul, e1, e2))
       }
        },
-    "/" = return(.Call("R_mpc_div", e1, e2, PACKAGE="mpc")),
-    "^" = return(.Call("R_mpc_pow", e1, e2, PACKAGE="mpc")),
+    "/" = return(.Call(R_mpc_div, e1, e2)),
+    "^" = return(.Call(R_mpc_pow, e1, e2)),
     "%%" = stop(.Generic, " not yet supported with mpc types."),
     "%/%" = stop(.Generic, " not yet supported with mpc types."),
     "&" = stop(.Generic, " not yet supported with mpc types."),

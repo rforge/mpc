@@ -19,26 +19,26 @@
 
 mpc <- function(z, precision=NULL) {
   if (is.null(precision)) {
-    precision = getOption("mpc.precision")
+    precision <- getOption("mpc.precision")
   }
   stopifnot(is.numeric(precision))
   if (length(z) == 1) {
-    .Call("R_mpc", z, as.integer(precision), PACKAGE="mpc")
+    .Call(R_mpc, z, as.integer(precision))
   } else {
     unlist(sapply(z,
                   function(x) {
-                    .Call("R_mpc", x, as.integer(precision), PACKAGE="mpc")
+                    .Call(R_mpc, x, as.integer(precision))
                   }))
   }
 }
 
 as.mpc <- function(z, precision=NULL) {
   if (is.null(precision)) {
-    precision = getOption("mpc.precision")
+    precision <- getOption("mpc.precision")
   }
   stopifnot(is.numeric(precision))
   stopifnot(is.numeric(z) || is.complex(z))
-  .Call("R_mpc", z, as.integer(precision), PACKAGE="mpc")
+  .Call(R_mpc, z, as.integer(precision))
 }
 
 is.mpc <- function(z) {
@@ -55,13 +55,13 @@ as.double.mpc <- function(x, ...) {
 }
 
 print.mpc <-function(x, ...) {
-  print(.Call("print_mpc", x, PACKAGE="mpc"))
+  print(.Call(print_mpc, x))
 }
 
 summary.mpc <- function(object, ...) {
-  precision <- .Call("R_mpc_get_prec", object, PACKAGE="mpc")
+  precision <- .Call(R_mpc_get_prec, object)
   cat("Output: ",
-      .Call("print_mpc", object, PACKAGE="mpc"),
+      .Call(print_mpc, object),
       "\nReal Precision: ", precision[1],
       "Imaginary Precision: ", precision[2],
       "\n")
@@ -75,23 +75,23 @@ Conj.mpc <- function(z) {
 
 Re.mpc <- function(z) {
   stopifnot(inherits(z, "mpc"))
-  .Call("R_mpc_real", z, PACKAGE="mpc")
+  .Call(R_mpc_real, z)
 }
 
 Im.mpc <- function(z) {
   stopifnot(inherits(z, "mpc"))
-  .Call("R_mpc_imag", z, PACKAGE="mpc")
+  .Call(R_mpc_imag, z)
 }
 
 Arg.mpc <- function(z) {
   stopifnot(inherits(z, "mpc"))
-  .Call("R_mpc_arg", z, PACKAGE="mpc")
+  .Call(R_mpc_arg, z)
 }
 
 # 5.8 Power and Logarithm Functions.
 log.mpc <- function(x, base=exp(1)) {
   stopifnot(is.numeric(base) || is.mpc(base))
-  result <- .Call("R_mpc_log", x, PACKAGE="mpc")
+  result <- .Call(R_mpc_log, x)
   if (base == exp(1)) {
     return(result)
   } else {
@@ -100,7 +100,7 @@ log.mpc <- function(x, base=exp(1)) {
 }
 
 exp.mpc <- function(x) { 
-  .Call("R_mpc_exp", x, PACKAGE="mpc")
+  .Call(R_mpc_exp, x)
 }
 
 # Utilities for testing
@@ -108,5 +108,5 @@ exp.mpc <- function(x) {
 #ulp <- function(x, y) {
 #  stopifnot(is.numeric(x), is.numeric(y))
 #  stopifnot(length(x) == length(y))
-#  return(.Call("R_ulp", x, y, PACKAGE="mpc"))
+#  return(.Call(R_ulp, x, y))
 #}

@@ -66,6 +66,7 @@ void mpcFinalizer(SEXP ptr) {
  * Return value:
  *   None.
  */
+static
 void Rmpc_get_max_prec(mpfr_prec_t *real_prec,
     mpfr_prec_t *imag_prec, mpc_t z1, mpc_t z2) {
 	mpfr_prec_t rp1, ip1, rp2, ip2;

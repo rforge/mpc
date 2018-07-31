@@ -1,3 +1,4 @@
+# Copyright 2018 Martin Maechler
 # Copyright 2011 Google Inc.
 #
 # This library is free software; you can redistribute it and/or
@@ -21,60 +22,60 @@
 
 sin.mpc <- function(x) {
         stopifnot(inherits(x, "mpc"))
-        return(.Call("R_mpc_sin", x, PACKAGE="mpc"))
+        return(.Call(R_mpc_sin, x))
 }
 
 cos.mpc <- function(x) {
         stopifnot(inherits(x, "mpc"))
-        return(.Call("R_mpc_cos", x, PACKAGE="mpc"))
+        return(.Call(R_mpc_cos, x))
 }
 
 tan.mpc <- function(x) {
         stopifnot(inherits(x, "mpc"))
-        return(.Call("R_mpc_tan", x, PACKAGE="mpc"))
+        return(.Call(R_mpc_tan, x))
 }
 
 sinh.mpc <- function(x) {
         stopifnot(inherits(x, "mpc"))
-        return(.Call("R_mpc_sinh", x, PACKAGE="mpc"))
+        return(.Call(R_mpc_sinh, x))
 }
 
 cosh.mpc <- function(x) {
         stopifnot(inherits(x, "mpc"))
-        return(.Call("R_mpc_cosh", x, PACKAGE="mpc"))
+        return(.Call(R_mpc_cosh, x))
 }
 
 tanh.mpc <- function(x) {
         stopifnot(inherits(x, "mpc"))
-        return(.Call("R_mpc_tanh", x, PACKAGE="mpc"))
+        return(.Call(R_mpc_tanh, x))
 }
 
 asin.mpc <- function(x) {
         stopifnot(inherits(x, "mpc"))
-        return(.Call("R_mpc_asin", x, PACKAGE="mpc"))
+        return(.Call(R_mpc_asin, x))
 }
 
 acos.mpc <- function(x) {
         stopifnot(inherits(x, "mpc"))
-        return(.Call("R_mpc_acos", x, PACKAGE="mpc"))
+        return(.Call(R_mpc_acos, x))
 }
 
 atan.mpc <- function(x) {
         stopifnot(inherits(x, "mpc"))
-        return(.Call("R_mpc_atan", x, PACKAGE="mpc"))
+        return(.Call(R_mpc_atan, x))
 }
 
 asinh.mpc <- function(x) {
         stopifnot(inherits(x, "mpc"))
-        return(.Call("R_mpc_asinh", x, PACKAGE="mpc"))
+        return(.Call(R_mpc_asinh, x))
 }
 
 acosh.mpc <- function(x) {
         stopifnot(inherits(x, "mpc"))
-        return(.Call("R_mpc_acosh", x, PACKAGE="mpc"))
+        return(.Call(R_mpc_acosh, x))
 }
 
 atanh.mpc <- function(x) {
         stopifnot(inherits(x, "mpc"))
-        return(.Call("R_mpc_atanh", x, PACKAGE="mpc"))
+        return(.Call(R_mpc_atanh, x))
 }

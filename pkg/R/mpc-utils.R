@@ -1,3 +1,4 @@
+# Copyright 2018 Martin Maechler
 # Copyright 2011 Google Inc.
 #
 # This library is free software; you can redistribute it and/or
@@ -19,12 +20,12 @@
 
 getPrec <- function(z) {
   stopifnot(inherits(z, "mpc"))
-  return(.Call("R_mpc_get_prec", z, PACKAGE="mpc"))
+  return(.Call(R_mpc_get_prec, z))
 }
 
 urandom.mpc <- function(precision) {
   stopifnot(is.numeric(precision))
-  return(.Call("R_mpc_urandom", as.integer(precision), PACKAGE="mpc"))
+  return(.Call(R_mpc_urandom, as.integer(precision)))
 }
 
-mpcVersion <- function() .Call("R_mpc_get_version", PACKAGE="mpc")
+mpcVersion <- function() .Call(R_mpc_get_version)
